@@ -4,26 +4,36 @@ try {
 	// uncomment to suppress Illustrator warning dialogs
 	// app.userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
 
+    var sourceDoc = '/C:/Users/georg/Google Drive/DigitalListings/CurrentlyListed/NurseSuperpower'
     var destFolder = null;
     var sourceFolder = '/C/Users/georg/Google Drive/DigitalListings/CurrentlyListed';
-
-    destFolder = Folder(sourceFolder).selectDlg();
+    ////D/somefolder/somefolder/here_we_are"
+        destFolder = Folder(sourceFolder).selectDlg();
 
         if (destFolder != null) {
             var pdfOptions, i, sourceDoc, targetFile;
 
-            var sourceDoc = app.activeDocument;
             // Get the PDF options to be used
             pdfOptions = new PDFSaveOptions();
             // You can tune these by changing the code in the getOptions() function.
 
             // Get the file to save the document as pdf into
-            targetFile = this.getTargetFile(sourceDoc.name, '.pdf', destFolder);
+            targetFile = this.getTargetFile(sourceDoc, '.pdf', destFolder);
 
             // Save as pdf
             sourceDoc.saveAs(targetFile, pdfOptions);
 
-           
+            var type = ExportType.JPEG;
+            var jpgOptions = new ExportOptionsJPEG();
+            jpgOptions.qualitySetting = 80;
+            jpgOptions.horizontalScale = (300 / 72) * 100;
+            jpgOptions.verticalScale = (300 / 72) * 100;
+            jpgOptions.antiAliasing = false;
+            jpgOptions.optimization = false;
+
+            targetFile = this.getTargetFile(sourceDoc.name, '.jpg', destFolder);
+
+            sourceDoc.exportFile(targetFile, ExportType.JPG, jpgOptions);
 
 
             alert('Document saved as PDF');
